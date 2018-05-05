@@ -4,24 +4,24 @@
     {#    time:2018-04-29#}
     {{ super() }}
     <meta charset="UTF-8">
-    {#    <meta name="viewport" content="width=device-width"/>#}
+    <meta name="viewport" content="width=device-width"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-    <!--@*1、Jquery组件引用*@-->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
-    <link href="../static/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../static/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet"/>
-    <link href="../static/bootstrap-table.css" rel="stylesheet"/>
+    <!--css样式-->
+    <link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../static/bootstraptable/bootstrap-table.min.css" rel="stylesheet"/>
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-table.css') }}">#}
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">#}
 
+    <!--js-->
     <script src="../static/jquery-3.3.1.min.js"></script>
-    <script src="../static/bootstrap.min.js"></script>
-    <!--@*2、bootstrap组件引用*@-->
-    <script src="../static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
-
-    <!--@*3、bootstrap table组件以及中文包的引用*@-->
-    <script src="../static/bootstrap-table.js"></script>
-    <script src="../static/bootstrap-table-zh-CN.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/bootstraptable/bootstrap-table.min.js"></script>
+    <script src="../static/bootstraptable/locale/bootstrap-table-zh-CN.min.js"></script>
+{#    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.3.1.min.js') }}"></script>#}
+{#    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>#}
+{#    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-table.js') }}"></script>#}
+{#    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-table-zh-CN.js') }}"></script>#}
 
 {% endblock %}
 {% block title %}贵港信息中心—送修系统{% endblock %}
@@ -175,7 +175,6 @@
 {#     2.用js初始化表，并填充数据#}
 {% block scripts %}
     <script type="text/javascript">
-
         function maketable(ajax_flag) {
             $("#table").bootstrapTable('destroy');
             $('#table').bootstrapTable({

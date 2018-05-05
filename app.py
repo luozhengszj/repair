@@ -4,7 +4,7 @@
 from flask import Flask, jsonify, render_template, request,send_from_directory,abort
 from flask_bootstrap import Bootstrap
 from data import selectother,insert,selectall,updatestatus,searchdata,gettimedata
-import xlwt
+import xlwt,os
 import datetime
 
 app = Flask(__name__)
@@ -31,16 +31,10 @@ def repairs():
         limit = info.get('limit', 10)  # 每页显示的条数
         offset = info.get('offset', 0)  # 分片数，(页码-1)*limit，它表示一段数据的起点
         ajax_flag = info.get('ajax_flag',0)  # 每页显示的条数
-        # flag = info.get('flag')  # 每页显示的条数
         data = []
-        tmp = ();
-        # if flag == '4':
-        #     nowtime = info.get('nowtime')  # 每页显示的条数
-        #     nexttime = int(nowtime)+1
-        #     tmp = gettimedata(str(nowtime)+'0000',str(nexttime)+'0000')
+        tmp = ()
+        print(ajax_flag)
 
-        # else:
-        # print(ajax_flag)
         if len(ajax_flag) > 1:
             if len(ajax_flag) < 7:
                 tmp = searchdata(ajax_flag)
@@ -130,24 +124,37 @@ def other():
             sheet = wbk.add_sheet('维修记录',cell_overwrite_ok =True)
             nowTime = datetime.datetime.now().strftime('%Y-%m-%d:%H:%M')
             # 遍历result中的没个元素。
+            num = 1
             for i in range(len(row)):
-                num = 1
+                # if i == 0:
+                #     sheet.write(0, 0, '序号')
+                #     sheet.write(0, 1, '状态')
+                #     sheet.write(0, 0, '序号')
+                #     sheet.write(0, 0, '序号')
+                #     sheet.write(0, 0, '序号')
+                #     sheet.write(0, 0, '序号')
+                #     sheet.write(0, 0, '序号')
+                #     sheet.write(0, 0, '序号')
                 for j in range(len(row[i])):
                     if(j ==0 ):
-                        sheet.write(i, j, num)
+                        sheet.write(i, 0, num)
                     elif (j == 1):
                         if row[i][j] == 0:
-                            sheet.write(i, j, '待修')
+                            sheet.write(i, 1, '待修')
                         elif row[i][j] == 1:
-                            sheet.write(i, j, '修理中')
+                            sheet.write(i, 1, '修理中')
                         elif row[i][j] == 2:
-                            sheet.write(i, j, '待领')
+                            sheet.write(i, 1, '待领')
                         else:
-                            sheet.write(i, j, '已领')
+                            sheet.write(i, 1, '已领')
+                    elif (j == 10 or j == 12):
+                        nowTime = row[i][j][:4]+'-'+row[i][j][4:6]+'-'+row[i][j][6:8]+' '+row[i][j][8:10]+':'+row[i][j][10:12]
+                        sheet.write(i, j, nowTime)
                     # 将每一行的每个元素按行号i,列号j,写入到excel中。
                     else:
                         sheet.write(i,j,row[i][j])
                 num = num+1
+                print(num)
             row =str(len(row))
             file_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'upload')
             if not os.path.exists(file_dir):
