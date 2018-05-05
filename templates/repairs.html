@@ -1,0 +1,604 @@
+{% extends "base.html" %}
+{% block styles %}
+    {#    make by luozheng#}
+    {#    time:2018-04-29#}
+    {{ super() }}
+    <meta charset="UTF-8">
+    {#    <meta name="viewport" content="width=device-width"/>#}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <!--@*1、Jquery组件引用*@-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <link href="../static/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../static/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../static/bootstrap-table.css" rel="stylesheet"/>
+
+    <script src="../static/jquery-3.3.1.min.js"></script>
+    <script src="../static/bootstrap.min.js"></script>
+    <!--@*2、bootstrap组件引用*@-->
+    <script src="../static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+
+    <!--@*3、bootstrap table组件以及中文包的引用*@-->
+    <script src="../static/bootstrap-table.js"></script>
+    <script src="../static/bootstrap-table-zh-CN.js"></script>
+
+{% endblock %}
+{% block title %}贵港信息中心—送修系统{% endblock %}
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    {#     推荐用这种方式，比较灵活#}
+    {# z-index:1001,显示层次； opacity:遮幕淡度#}
+    <div id="fade" class="black_overlay" style=" display: none;position: absolute;top: 0%;left: 0%;width: 100%;height: 100%;
+    background-color:#f5f5f5;z-index:1001;-moz-opacity: 0.8;opacity:.60;
+ filter: alpha(opacity=80);"></div>
+    <div style="width: 1450px;margin-left: 28px;">
+        <div id="toolbar" class="btn-group" style="position: absolute">
+            <button id="btn_qb" type="button" class="btn btn-default" style="">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&ensp;全&ensp;部&ensp;
+            </button>
+            <button id="btn_dx" type="button" class="btn btn-default" style="margin-left: 20px">
+                <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>&ensp;待&ensp;修&ensp;
+            </button>
+            <button id="btn_dl" type="button" class="btn btn-default" style="margin-left: 20px">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>&ensp;待&ensp;领&ensp;
+            </button>
+            <button id="btn_add" type="button" class="btn btn-default" style="margin-left: 20px">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&ensp;新&ensp;增&ensp;
+            </button>
+            <button id="btn_tj" type="button" class="btn btn-default" style="margin-left: 20px">
+                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&ensp;今日统计
+            </button>
+            <button id="btn_bb" type="button" class="btn btn-default" style="margin-left: 20px">
+                <span class="glyphicon glyphicon-th" aria-hidden="true"></span>&ensp;统计报表
+            </button>
+            <button id="btn_dc" type="button" class="btn btn-default" style="margin-left: 20px">
+                <span class="glyphicon glyphicon-th" aria-hidden="true"></span>&ensp;导出数据
+            </button>
+            <button id="btn_rq" type="button" class="btn btn-default" style="margin-left: 20px">
+                <span class="glyphicon glyphicon-th" aria-hidden="true"></span>&ensp;选择日期
+            </button>
+            <input style="margin-left: 20px;margin-top: 5px;width: 150px;position: absolute;visibility: hidden"
+                   type="text" id="datepicker" placeholder="如:20180501-20180503">
+
+            <input id='search_text' class="form-control" type="text"
+                   style="position: relative;width: 200px;margin-left:1150px"
+                   placeholder="搜索">
+        </div>
+
+        <div id="div_add"
+             style="width: 770px;height: 300px;background: #9acfea;position: absolute;margin-left: 280px; margin-top:120px;
+             display: none; z-index:1002;overflow: auto;">
+            <h3 style="position: absolute;text-align:center;margin-left: 320px;margin-top: 25px">设备送修</h3>
+
+            <h4 style="position: absolute;margin-left: 15px;margin-top: 77px;display: inline">类型</h4>
+            <select id='sel_type' class="form-control"
+                    style="margin-left: 62px;margin-top: 70px;width: 100px;display : inline">
+                <option>主机</option>
+                <option>打印机</option>
+                <option>笔记本</option>
+            </select>
+
+            <h4 style="position: absolute;margin-left: 20px;margin-top: 77px;display: inline">品牌</h4>
+            <select id='sel_brand' class="form-control"
+                    style="margin-left: 70px;margin-top: 70px;width: 105px;display : inline">
+                <option>联想</option>
+                <option>戴尔</option>
+            </select>
+
+            <h4 style="position: absolute;margin-left: 20px;margin-top: 77px;display: inline">部门</h4>
+            <select id="sel_dep" class="form-control"
+                    style="margin-left: 70px;margin-top: 70px;width: 130px;display : inline">
+                <option>变电管理所</option>
+                <option>输电管理所</option>
+            </select>
+
+            <h4 style="position: absolute;margin-left: 20px;margin-top: 77px;display: inline">班组</h4>
+            <select id="sel_class" class="form-control"
+                    style="margin-left: 70px;margin-top: 70px;width: 130px;display : inline">
+                <option>选择班组</option>
+            </select>
+
+            <h4 style="position: absolute;margin-left: 7px;margin-top: 67px;">使用人</h4>
+            <input style="margin-left: 62px;margin-top: 60px;width: 100px;display : inline;height: 35px;font-size: 20px"
+                   type="text" id="text_user" maxlength=5 onkeyup="value=value.replace(/[\d]/g,'') " placeholder="*使用人">
+
+            <h4 style="position: absolute;margin-left: 12px;margin-top: 67px;display : inline">送修人</h4>
+            <input style="margin-left: 70px;margin-top: 60px;width: 105px;display : inline;height: 35px;font-size: 20px; "
+                   type="text" id="text_suser" maxlength=5 onkeyup="value=value.replace(/[\d]/g,'') "
+                   placeholder="*送修人">
+
+            <h4 style="position: absolute;margin-left: 20px;margin-top: 67px;display : inline">手机</h4>
+            <input style="margin-left: 70px;margin-top: 60px;width: 130px;display : inline;height: 35px;font-size: 18px"
+                   type="text" id="text_tel" maxlength=11 onkeyup="value=value.replace(/[^\d]/g,'') " placeholder="*手机">
+
+            <select id='sel_pro' class="form-control"
+                    style="margin-left: 20px;margin-top: 60px;width: 185px;display : inline">
+                <option>选择出现问题</option>
+                <option>开不了机</option>
+                <option>启动很慢</option>
+                <option>开机蓝屏</option>
+            </select>
+            <button id='add_ok' type="button" class="btn btn-primary btn-lg"
+                    style="margin-left: 243px;margin-top: 35px;font-size: 14px">&ensp;确&ensp;定&ensp;
+            </button>
+            <button id='add_cancel' type="button" class="btn btn-default btn-lg"
+                    style="margin-left: 97px;margin-top: 35px;font-size: 14px; ">&ensp;取&ensp;消&ensp;
+            </button>
+        </div>
+
+        <div id="div_note"
+             style="width: 530px;height: 240px;background: #9acfea;position: absolute;margin-left: 400px; margin-top:120px;visibility: hidden;
+              z-index:1002;overflow: auto;">
+            <h3 style="position: absolute;text-align:center;margin-left: 220px;margin-top: 25px">修理完成</h3>
+
+            <select id='sel_way' class="form-control"
+                    style="margin-left: 85px;margin-top: 60px;width: 130px;display : inline">
+                <option>重装系统</option>
+                <option>联网升级入网软件</option>
+                <option>其他</option>
+            </select>
+
+            <select id='sel_note' class="form-control"
+                    style="margin-left: 100px;margin-top: 60px;width: 130px;display : inline">
+                <option>加固态</option>
+                <option>加内存</option>
+                <option>加内存、固态</option>
+                <option>其他</option>
+            </select>
+            <p style="visibility: hidden" id="p_message"></p>
+            <input style="margin-left: 20px;margin-top: 0px;width: 230px;display : inline;height: 35px;font-size: 12px; visibility:hidden"
+                   type="text" id="text_way" placeholder="输入解决方法">
+            <input style="margin-left: 20px;margin-top: 0px;width: 230px;display : inline;height: 35px;font-size: 12px; visibility:hidden"
+                   type="text" id="text_note" onkeyup="value=value.replace(/[\d]/g,'') "
+                   placeholder="输入备注">
+
+            <button id='xl_ok' type="button" class="btn btn-primary btn-lg"
+                    style="margin-left: 113px;margin-top: 20px;font-size: 14px">&ensp;确&ensp;定&ensp;
+            </button>
+            <button id='xl_cancel' type="button" class="btn btn-default btn-lg"
+                    style="margin-left: 145px;margin-top: 20px;font-size: 14px; ">&ensp;取&ensp;消&ensp;
+            </button>
+        </div>
+        <table id="table"></table>
+    </div>
+
+    {%- block footer %}
+        <div>
+            <footer id="base_footer" style="text-align:center;bottom:20px;">&copy; 2018 luozheng, Inc.</footer>
+        </div>
+    {%- endblock footer %}
+{% endblock %}
+{#     1.先定义一个空表#}
+{#     2.用js初始化表，并填充数据#}
+{% block scripts %}
+    <script type="text/javascript">
+
+        function maketable(ajax_flag) {
+            $("#table").bootstrapTable('destroy');
+            $('#table').bootstrapTable({
+                url: '/jsondata',  // 请求数据源的路由
+                queryParams: {'ajax_flag': ajax_flag, 'order': 'asc', 'offset': 0, 'limit': 10},
+                dataType: "json",
+                pagination: true, //前端处理分页
+                singleSelect: false,//是否只能单选
+                search: false, //显示搜索框，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                toolbar: '#toolbar', //工具按钮用哪个容器
+                striped: true, //是否显示行间隔色
+                cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pageNumber: 1, //初始化加载第10页，默认第一页
+                pageSize: 10, //每页的记录行数（*）
+                pageList: [10, 20, 50, 100], //可供选择的每页的行数（*）
+                showColumns: true, //显示内容列下拉框
+                showRefresh: true, //显示刷新按钮
+                minimumCountColumns: 2, //当列数小于此值时，将隐藏内容列下拉框
+                clickToSelect: true, //设置true， 将在点击某行时，自动勾选rediobox 和 checkbox
+                {#        height: 500, //表格高度，如果没有设置height属性，表格自动根据记录条数决定表格高度#}
+                uniqueId: "id", //每一行的唯一标识，一般为主键列
+                {#                showToggle: true, //是否显示详细视图和列表视图的切换按钮#}
+                cardView: false, //是否显示详细视图
+                {#        detailView: true, //是否显示父子表，设置为 true 可以显示详细页面模式,在每行最前边显示+号#}
+                sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
+                onDblClickRow: function (row) {
+                    var st = row.id + '-' + row.type
+                    $('#p_message').text(st)
+                    edit(st)
+                },
+                columns: [{  //定义表头,这个表头必须定义,下边field后边跟的字段名字必须与后端传递的字段名字相同.如:id、name、price跟后端的字段名id  name price是完全一样的.
+
+                    field: 'num',
+                    title: '序号',
+                    align: 'center',  //对齐方式，居中
+                    {#                width: '200px'  // 可以写各种样式#}
+
+                }, {
+                    field: 'type', title: '类型', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
+
+                }, {
+                    field: 'brand', title: '品牌', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
+
+                }, {
+                    field: 'reason', title: '故障原因', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
+
+                }, {
+                    field: 'depart', title: '部门', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
+
+                },
+                    {
+                        field: 'class', title: '班组', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
+
+                    }, {
+                        field: 'suser', title: '送修人', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
+
+                    }, {
+                        field: 'tel', title: '联系电话', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
+
+                    }, {
+                        field: 'user', title: '使用人', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
+
+                    }, {
+                        field: 'stime', title: '送修时间', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
+                    },
+                    {
+                        field: 'luser', title: '领取人', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
+
+                    }, {
+                        field: 'ltime', title: '领取时间', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
+
+                    }, {
+                        field: 'way',
+                        title: '解决办法',
+                        align: 'center',
+                        width: '150px',
+                        cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
+
+                    }, {
+                        field: 'note',
+                        title: '备注',
+                        align: 'center',
+                        width: '150px',
+                        cellStyle: {css: {"color": "red", 'padding': '8px 2px 8px 2px'}}
+                    }, {
+                        title: '操作',
+                        field: 'id',
+                        align: 'center',
+                        width: '70px',
+                        cellStyle: {css: {'padding': '8px 2px 8px 2px'}},
+                        formatter: function (value, row) {
+                            flag = value.split('-')[1]
+                            e = ''
+                            {#                            alert(row.type)#}
+                            var st = row.id + '-' + row.type
+                            if (flag == 3) {
+                                e = '<b  style=\'padding:8px 2px 8px 2px\' >已领</b> ';
+                            } else if (flag == 2) {
+                                e = '<a href="#" mce_href="" style=\'padding:8px 2px 8px 2px\' onclick="edit(\'' + st + '\')">待领</a> ';
+                            } else if (flag == 0) {
+                                e = '<a href="#" mce_href="" style=\'padding:8px 2px 8px 2px\' onclick="edit(\'' + st + '\')">待修</a> ';
+                            } else if (flag == 1) {
+                                e = '<a href="#" mce_href="" style=\'padding:8px 2px 8px 2px\' onclick="edit(\'' + st + '\')">修理中</a> ';
+                            }
+                            return e;
+                        }
+                    }
+                ],
+            });
+        };
+
+        $('#basemonths').on('click', 'li', function () {
+            alert($(this).text())
+        });
+        $('#baseyears').on('click', 'li', function () {
+            alert($(this).text())
+        });
+        //遮幕点击事件，隐藏弹出的对话框
+        $('#fade').click(function () {
+            $('#div_add').css('display', 'none');
+            $('#div_note').css('display', 'none');
+            $('#fade').css('display', 'none');
+        });
+        $('#btn_add').click(function () {
+            $("#text_user").val("");
+            $('#text_suser').val("");
+            $('#text_tel').val("");
+            $('#div_add').css('display', 'block');
+            $('#fade').css('display', 'block');
+        });
+        $('#add_ok').click(function () {
+            var user = $('#text_user').val()
+            var suser = $('#text_suser').val()
+            var tel = $('#text_tel').val();
+            var sel_type = $("#sel_type").find("option:selected").text();
+            var sel_brand = $("#sel_brand").find("option:selected").text();
+            var sel_dep = $("#sel_dep").find("option:selected").text();
+            var sel_class = $("#sel_class").find("option:selected").text();
+            var sel_pro = $("#sel_pro").find("option:selected").text();
+            var reg = /^[\u4E00-\u9FA5]+$/;
+            if (user == '' || !reg.test(user) || suser == '' || !reg.test(suser) || tel == '')
+                alert('请输入完整的信息..')
+            else if (tel.length != 11 && tel.length != 7 && tel.length != 4)
+                alert('联系方式应为11位、7位或4位')
+            else if (sel_pro == '选择出现问题' || sel_class == '选择班组') {
+                alert('请选择出现的问题、所在班组')
+            } else {
+                data = {
+                    'flag': 2, 'user': user, 'suser': suser, 'tel': tel, 'sel_type': sel_type, 'sel_brand': sel_brand,
+                    'sel_dep': sel_dep, 'sel_class': sel_class, 'sel_pro': sel_pro
+                }
+                $.ajax({
+                    type: 'GET',
+                    url: '/ajax/data',
+                    data: data,
+                    dataType: 'text',
+                    success: function (data) {
+                        if (data == 1) {
+                            $('#div_add').css('display', 'none');
+                            $('#fade').css('display', 'none');
+                            $('#table').bootstrapTable('refresh');
+                        }
+                    }
+                });
+            }
+        });
+        $('#add_cancel').click(function () {
+            $('#div_add').css('display', 'none');
+            $('#fade').css('display', 'none');
+        });
+        //送修设备类型改变，相应的品牌、出现问题的选项内容也改变
+        $('#sel_type').on("change", function () {
+            var st = $("#sel_type").find("option:selected").text();
+            if (st == '主机') {
+                flag_type = 1
+            } else if (st == '打印机') {
+                flag_type = 2
+            } else if (st == '笔记本') {
+                flag_type = 3
+            }
+            data = {'flag': 1, 'flag_type': flag_type, 'flag_num': 2}
+            $.ajax({
+                type: 'GET',
+                url: '/ajax/data',
+                data: data,
+                dataType: 'text',
+                success: function (data) {
+                    data = data.split('=')
+                    data1 = data[0].split(',')
+                    $("#sel_brand").empty();
+                    for (i = 0; i < data1.length; i++)
+                        $("#sel_brand").append("<option value='" + data1[i] + "'>" + data1[i] + "</option>"); //为Select追加一个Option(下拉项)
+                    data2 = data[1].split(',')
+                    $("#sel_pro").empty();
+                    for (i = 0; i < data2.length; i++)
+                        $("#sel_pro").append("<option value='" + data2[i] + "'>" + data2[i] + "</option>");
+                }
+            });
+        })
+        //部门选项改变的事件，班组选项相应改变
+        $('#sel_dep').on("change", function () {
+            var st = $("#sel_dep").find("option:selected").text();
+            data = {'flag': 1, 'flag_type': st, 'flag_num': -1}
+
+            $.ajax({
+                type: 'GET',
+                url: '/ajax/data',
+                data: data,
+                dataType: 'text',
+                success: function (data) {
+                    data = data.split(',')
+                    $("#sel_class").empty();
+                    for (i = 0; i < data.length; i++)
+                        $("#sel_class").append("<option value='" + data[i] + "'>" + data[i] + "</option>");
+                }
+            });
+        })
+        {#      编辑维修单的状态，都是往前进一步
+                将维修单的id、现状态的标志flag,该单的类型(主机、打印机、笔记本)、领用人luser、解决办法way、留言note返回给后台
+                其中通过xl_flag来使得ajax代码只存在一处#}
+
+        function edit(num) {
+            var id = num.split('-')[0]
+            var flag = num.split('-')[1]
+            var type = num.split('-')[2]
+            var message = ''
+            var xl_flag = false
+            var luser = ''
+            var note = ''
+            var way = ''
+            if (flag == 0) {
+                message = '当前为待修，确定则转为修理状态'
+                e = confirm(message)
+                if (!e) {
+                    return;
+                } else {
+                    xl_flag = true
+                }
+            }
+            else if (flag == 1) {
+                $('#div_note').css('visibility', 'visible')
+                $('#div_note').css('display', 'block');
+                $('#fade').css('display', 'block');
+                if (type == '主机') {
+                } else if (type == '打印机') {
+                    $("#sel_way").empty()
+                    $("#sel_way").append("<option value='行走小车故障'>行走小车故障</option>");
+                    $("#sel_way").append("<option value='电源损坏'>电源损坏</option>");
+                    $("#sel_way").append("<option value='喷头堵头'>喷头堵头</option>");
+                    $("#sel_way").append("<option value='其他'>其他</option>");
+
+                    $("#sel_note").empty()
+                    $("#sel_note").append("<option value='更换损坏部件'>更换损坏部件</option>");
+                    $("#sel_note").append("<option value='修理损坏部件'>修理损坏部件</option>");
+                    $("#sel_note").append("<option value='其他'>其他</option>");
+                } else if (type == '笔记本') {
+                    $("#sel_way").empty()
+                    $("#sel_way").append("<option value='加装升级入网软件'>加装升级入网软件</option>");
+                    $("#sel_way").append("<option value='重装系统'>重装系统</option>");
+                    $("#sel_way").append("<option value='其他'>其他</option>");
+
+                    $("#sel_note").empty()
+                    $("#sel_note").append("<option value='无'>无</option>");
+                    $("#sel_note").append("<option value='加装内存条'>加装内存条</option>");
+                    $("#sel_note").append("<option value='其他'>其他</option>");
+                }
+            }
+            else if (flag == 2) {
+                var a = prompt("输入签领人姓名");
+                var reg = /^[\u4E00-\u9FA5]+$/;
+                if (reg.test(a) && a.length > 1) {
+                    luser = a
+                    xl_flag = true
+                } else {
+                    xl_flag = false
+                    alert('长度不够或未输入中文')
+                }
+
+            }
+            if (xl_flag) {
+                data = {'flag': 3, 'id': id, 'xl_flag': flag, 'note': note, 'way': way, 'luser': luser}
+                $.ajax({
+                    type: 'GET',
+                    url: '/ajax/data',
+                    data: data,
+                    dataType: 'text',
+                    success: function (data) {
+                        if (data == 1) {
+                            alert('状态修改成功')
+                            $('#fade').css('display', 'none');
+                            $('#table').bootstrapTable('refresh');
+                        }
+                    }
+                });
+            } else {
+                return;
+            }
+        };
+        //修理完对话框确定按钮，发起ajax请求
+        $('#xl_ok').click(function () {
+            var num = $('#p_message').text()
+            var id = num.split('-')[0]
+            var flag = num.split('-')[1]
+            var way = $("#sel_way").find("option:selected").text();
+            var note = $("#sel_note").find("option:selected").text();
+            var luser = ''
+            if (way == '其他') {
+                way = $('#text_way').val()
+            }
+            if (note == '其他') {
+                note = $('#text_note').val()
+            }
+            data = {'flag': 3, 'id': id, 'xl_flag': flag, 'note': note, 'way': way, 'luser': luser}
+            $.ajax({
+                type: 'GET',
+                url: '/ajax/data',
+                data: data,
+                dataType: 'text',
+                success: function (data) {
+                    if (data == 1) {
+                        alert('状态修改成功')
+                        $('#table').bootstrapTable('refresh');
+                        $('#fade').css('display', 'none');
+                        $('#div_note').css('visibility', 'hidden')
+                        $('#text_way').css('visibility', 'hidden')
+                        $('#text_note').css('visibility', 'hidden')
+                    }
+                }
+            });
+        });
+        //修理完成的对话框按钮,弹框隐藏，两个内容框隐藏
+        $('#xl_cancel').click(function () {
+            $('#div_note').css('visibility', 'hidden')
+            $('#text_way').css('visibility', 'hidden')
+            $('#text_note').css('visibility', 'hidden')
+        });
+        //解决办法选项内容改变时间
+        $('#sel_way').on("change", function () {
+            var st_way = $("#sel_way").find("option:selected").text();
+            if (st_way == '其他') {
+                $('#text_way').css('visibility', 'visible')
+            } else {
+                $('#text_way').css('visibility', 'hidden')
+            }
+        })
+        //留言选项内容改变时间
+        $('#sel_note').on("change", function () {
+            var sel_note = $("#sel_note").find("option:selected").text();
+            if (sel_note == '其他') {
+                $('#text_note').css('visibility', 'visible')
+            } else {
+                $('#text_note').css('visibility', 'hidden')
+            }
+        })
+        maketable(4)
+        //代修理
+        $('#btn_dx').click(function () {
+            maketable(0)
+        });
+        //代领取
+        $('#btn_dl').click(function () {
+            maketable(2)
+        });
+        //代全部
+        $('#btn_qb').click(function () {
+            maketable(4)
+        });
+        $('#btn_bb').click(function () {
+            window.open("../static/render.html");
+        });
+        $('#search_text').change(function () {
+            var text = $('#search_text').val()
+            if (text.length > 1) {
+                maketable(text)
+            }
+        });
+        var num = 0
+        $('#btn_rq').click(function () {
+            if (num % 2 == 1) {
+                $('#datepicker').css('visibility', 'hidden')
+                $('#datepicker1').css('visibility', 'hidden')
+            } else {
+                $('#datepicker').css('visibility', 'visible')
+                $('#datepicker1').css('visibility', 'visible')
+            }
+            num = num + 1
+        });
+        $('#btn_dc').click(function () {
+            data = {'flag': 4}
+            $.ajax({
+                type: 'GET',
+                url: '/ajax/data',
+                data: data,
+                dataType: 'text',
+                success: function (data) {
+                    window.open('http://127.0.0.1:5000/upload/送修记录.xls');
+                }
+            });
+        });
+        $('#datepicker').change(function () {
+            var text = $('#datepicker').val()
+            if (text.length != 17) {
+                alert('格式输入不正确1')
+            } else {
+                time = text.split('-')
+                if (time.length != 2)
+                    alert('格式输入不正确2')
+                else if (time[0].length != 8 || time[1].length != 8)
+                    alert('格式输入不正确3')
+                else
+                    maketable(text)
+            }
+        });
+        $('#btn_tj').click(function () {
+            var myDate = new Date();//获取系统当前时间
+            var mon = myDate.getMonth()+1
+            if(mon <10)
+                mon = '0'+mon
+            var day = myDate.getDay()-1
+            if(day < 10)
+                day = '0'+day
+            var text = myDate.getFullYear()+""+mon+""+day+'-'+myDate.getFullYear()+""+mon+""+day
+            maketable(text)
+        });
+    </script>
+{% endblock %}

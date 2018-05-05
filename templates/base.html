@@ -1,0 +1,46 @@
+{% extends "bootstrap/base.html" %} <!-- base.html模板继承自bootstrap/base.html -->
+{% block title %}送修系统{% endblock %}
+{% block navbar %}
+    <div id ='navbar_div' class="navbar navbar-inverse" role="navigation">
+        <div class="container" style="margin-left: 80px;margin-right: 80px;">
+            <div class="navbar-header">
+                <a class="navbar-brand" style="font-size: 18px;">欢迎使用送修系统</a>
+            </div>
+            <div class="navbar-brand" style="float:right;color:#ffff;">
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        {% block page_content %}{% endblock %}
+    </div>
+    {%- block footer %}
+        <div>
+            <footer id="base_footer" style="text-align:center;bottom:20px;">&copy; 2018 luozheng, Inc.</footer>
+        </div>
+    {%- endblock footer %}
+{% endblock %}
+{% block scripts %}
+    {#    <script type="text/javascript">#}
+    {#        window.onload = function () {#}
+    {#            var showyear = document.getElementById("baseyear");#}
+    {#            var showmonth = document.getElementById("basemonth");#}
+    {#            setInterval(function () {#}
+    {#                var time = new Date();#}
+    {#                // 程序计时的月从0开始取值后+1#}
+    {#                var m = time.getMonth() + 1;#}
+    {#                var t = time.getFullYear();#}
+    {#                alert(m)#}
+    {#                alert(t)#}
+    {#                showyear.innerHTML = t;#}
+    {#                showmonth.innerHTML = m;#}
+    {#            }, 1000);#}
+    {#        };#}
+    {#    </script>#}
+{% endblock %}
+
+
