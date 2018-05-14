@@ -66,8 +66,9 @@ def repairs():
             time = st[12]
             if len(time) > 10:
                 d['ltime'] = time[4:6] + '-' + time[6:8] + " " + time[8:10] + ':' + time[10:12]  # 领取时间
-            d['way'] = st[13]
-            d['note'] = st[14]
+            d['why'] = st[13]
+            d['way'] = st[14]
+            d['note'] = st[15]
             data.append(d)
             i = i + 1
         # print('get', limit)
@@ -110,10 +111,11 @@ def other():
             id = info.get('id')
             xl_flag = info.get('xl_flag')
             xl_flag = int(xl_flag)+1
+            why = info.get('why')
             note = info.get('note')
             way = info.get('way')
             luser = info.get('luser')
-            row = updatestatus(id,xl_flag,way,note,luser)
+            row = updatestatus(id,xl_flag,why,way,note,luser)
             return row
         elif flag == '4':
             # 导出数据
@@ -161,7 +163,7 @@ def other():
                 os.makedirs(file_dir)
             wbk.save(os.path.join(file_dir,'送修记录.xls'))
             # directory = 'upload'
-            return "http://127.0.0.1:5000/upload/送修记录.xls"
+            return "http://10.195.158.228:5000/upload/送修记录.xls"
 
 
             # 注意total与rows是必须的两个参数，名字不能写错，total是数据的总长度，rows是每页要显示的数据,它是一个列表

@@ -4,7 +4,7 @@ import pymysql
 import datetime
 
 # 创建连接
-conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='lz3553772..', db='songxiu', charset='utf8')
+conn = pymysql.connect(host='127.0.0.1', port=3306, user='sx', passwd='pw..', db='db', charset='utf8')
 
 # 创建游标
 cursor = conn.cursor()
@@ -12,6 +12,7 @@ cursor = conn.cursor()
 
 def selectother(message1, message2):
     row = ''
+    # 根据类型、搜索品牌、常有问题等
     if message1 != -1:
         sql = 'select txt from other where flag=%s and num=%s'
         cursor.execute(sql, [message1, message2])
@@ -26,6 +27,7 @@ def selectother(message1, message2):
         for st in rows:
             row2 = row2 + "," + st[0]
         row = row1[1:] + "=" + row2[1:]
+    # 根据选择的部门名称，搜索班组
     if message1 == '-1':
         sql = 'select txt from other where flag=5 and num=(select num from other where txt=%s)'
         cursor.execute(sql, message2)
@@ -55,16 +57,15 @@ def selectall(ajax_flag):
         sql = 'select * from repair order by flag asc,id desc'
         cursor.execute(sql)
         row = cursor.fetchall()
-        # print(row)
         return row
 
-def updatestatus(id,xl_flag,way,note,luser):
+def updatestatus(id,xl_flag,why,way,note,luser):
     if xl_flag == 1:
         sql = 'update repair set flag=%s where id=%s'
         r = cursor.execute(sql, [ xl_flag, id])
     elif xl_flag == 2:
-        sql = 'update repair set flag=%s,way=%s,note=%s where id=%s'
-        r = cursor.execute(sql, [ xl_flag, way, note, id])
+        sql = 'update repair set flag=%s,why=%s,way=%s,note=%s where id=%s'
+        r = cursor.execute(sql, [ xl_flag, why,way, note, id])
     elif xl_flag == 3:
         nowTime = datetime.datetime.now().strftime('%Y%m%d%H%M')
         sql = 'update repair set flag=%s,luser=%s,ltime=%s where id=%s'

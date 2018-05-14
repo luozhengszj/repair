@@ -8,20 +8,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
     <!--css样式-->
-    <link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../static/bootstraptable/bootstrap-table.min.css" rel="stylesheet"/>
-{#    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-table.css') }}">#}
-{#    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">#}
+    <!-- <link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../static/bootstraptable/bootstrap-table.min.css" rel="stylesheet"/> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-table.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstraptable/bootstrap.min.css') }}">
 
     <!--js-->
-    <script src="../static/jquery-3.3.1.min.js"></script>
+    <!-- <script src="../static/jquery-3.3.1.min.js"></script>
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>
     <script src="../static/bootstraptable/bootstrap-table.min.js"></script>
-    <script src="../static/bootstraptable/locale/bootstrap-table-zh-CN.min.js"></script>
-{#    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.3.1.min.js') }}"></script>#}
-{#    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>#}
-{#    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-table.js') }}"></script>#}
-{#    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-table-zh-CN.js') }}"></script>#}
+    <script src="../static/bootstraptable/locale/bootstrap-table-zh-CN.min.js"></script> -->
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.3.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='bootstraptable/bootstrap-table.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='bootstraptable/bootstrap-table-zh-CN.js') }}"></script>
 
 {% endblock %}
 {% block title %}贵港信息中心—送修系统{% endblock %}
@@ -34,7 +35,7 @@
     <div id="fade" class="black_overlay" style=" display: none;position: absolute;top: 0%;left: 0%;width: 100%;height: 100%;
     background-color:#f5f5f5;z-index:1001;-moz-opacity: 0.8;opacity:.60;
  filter: alpha(opacity=80);"></div>
-    <div style="width: 1450px;margin-left: 28px;">
+    <div style="width: 95%;margin:0 auto">
         <div id="toolbar" class="btn-group" style="position: absolute">
             <button id="btn_qb" type="button" class="btn btn-default" style="">
                 <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&ensp;全&ensp;部&ensp;
@@ -69,13 +70,13 @@
         </div>
 
         <div id="div_add"
-             style="width: 770px;height: 300px;background: #9acfea;position: absolute;margin-left: 280px; margin-top:120px;
+             style="width: 770px;height: 300px;border:1px solid #9bdf70;background:#f0fbeb;position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);
              display: none; z-index:1002;overflow: auto;">
             <h3 style="position: absolute;text-align:center;margin-left: 320px;margin-top: 25px">设备送修</h3>
 
             <h4 style="position: absolute;margin-left: 15px;margin-top: 77px;display: inline">类型</h4>
             <select id='sel_type' class="form-control"
-                    style="margin-left: 62px;margin-top: 70px;width: 100px;display : inline">
+                    style="margin-left: 62px;margin-top: 70px;width: 100px;display : inline;padding: 2px">
                 <option>主机</option>
                 <option>打印机</option>
                 <option>笔记本</option>
@@ -83,22 +84,56 @@
 
             <h4 style="position: absolute;margin-left: 20px;margin-top: 77px;display: inline">品牌</h4>
             <select id='sel_brand' class="form-control"
-                    style="margin-left: 70px;margin-top: 70px;width: 105px;display : inline">
+                    style="margin-left: 70px;margin-top: 70px;width: 105px;display : inline;padding: 2px">
                 <option>联想</option>
                 <option>戴尔</option>
             </select>
 
             <h4 style="position: absolute;margin-left: 20px;margin-top: 77px;display: inline">部门</h4>
             <select id="sel_dep" class="form-control"
-                    style="margin-left: 70px;margin-top: 70px;width: 130px;display : inline">
+                    style="margin-left: 70px;margin-top: 70px;width: 130px;display : inline;padding: 2px">
+                <option>电力调度控制中心</option>
                 <option>变电管理所</option>
                 <option>输电管理所</option>
+                <option>供电服务中心</option>
+                <option>项目管理中心</option>
+                <option>信息中心</option>
+                <option>物流服务中心</option>
+                <option>计量中心</option>
+                <option>综合服务中心</option>
+                <option>港北供电分局</option>
+                <option>港南供电分局</option>
+                <option>覃塘供电分局</option>
+                <option>办公室</option>
+                <option>计划发展部</option>
+                <option>财务部</option>
+                <option>生产技术部</option>
+                <option>安全监管部</option>
+                <option>市场营销部</option>
+                <option>建设管理部</option>
+                <option>审计部</option>
+                <option>党建人事部</option>
+                <option>人力资源部</option>
+                <option>监察部</option>
+                <option>工会</option>
             </select>
 
             <h4 style="position: absolute;margin-left: 20px;margin-top: 77px;display: inline">班组</h4>
             <select id="sel_class" class="form-control"
-                    style="margin-left: 70px;margin-top: 70px;width: 130px;display : inline">
+                    style="margin-left: 70px;margin-top: 70px;width: 130px;display : inline;padding: 2px">
                 <option>选择班组</option>
+                <option>管理岗</option>
+                <option>继电保护一班</option>
+                <option>继电保护二班</option>
+                <option>电气试验班</option>
+                <option>变电检修一班</option>
+                <option>变电检修二班</option>
+                <option>江北巡维班</option>
+                <option>江南巡维班</option>
+                <option>桂平巡维班</option>
+                <option>覃塘巡维班</option>
+                <option>平南巡维班</option>
+                <option>500Kv逢宜站</option>
             </select>
 
             <h4 style="position: absolute;margin-left: 7px;margin-top: 67px;">使用人</h4>
@@ -115,11 +150,11 @@
                    type="text" id="text_tel" maxlength=11 onkeyup="value=value.replace(/[^\d]/g,'') " placeholder="*手机">
 
             <select id='sel_pro' class="form-control"
-                    style="margin-left: 20px;margin-top: 60px;width: 185px;display : inline">
-                <option>选择出现问题</option>
-                <option>开不了机</option>
-                <option>启动很慢</option>
-                <option>开机蓝屏</option>
+                    style="margin-left: 20px;margin-top: 60px;width: 185px;display : inline;padding: 2px">
+                <option >选择出现问题</option>
+                <option >开不了机</option>
+                <option >启动很慢</option>
+                <option >开机蓝屏</option>
             </select>
             <button id='add_ok' type="button" class="btn btn-primary btn-lg"
                     style="margin-left: 243px;margin-top: 35px;font-size: 14px">&ensp;确&ensp;定&ensp;
@@ -130,36 +165,40 @@
         </div>
 
         <div id="div_note"
-             style="width: 530px;height: 240px;background: #9acfea;position: absolute;margin-left: 400px; margin-top:120px;visibility: hidden;
+             style="width: 580px;height: 320px; border:1px solid #9bdf70;background:#f0fbeb;position: absolute;left: 50%;top: 40%;transform: translate(-50%,-50%);visibility: hidden;
               z-index:1002;overflow: auto;">
             <h3 style="position: absolute;text-align:center;margin-left: 220px;margin-top: 25px">修理完成</h3>
 
+            <input style="margin-left: 60px;margin-top: 80px;width: 430px;height: 35px;font-size: 12px;border: #FFFFFF;border-bottom:#777777 solid 1px;background:transparent;  "
+                   type="text" id="text_why" onkeyup="value=value.replace(/[\d]/g,'') "
+                   placeholder="出现问题原因">
+
             <select id='sel_way' class="form-control"
-                    style="margin-left: 85px;margin-top: 60px;width: 130px;display : inline">
+                    style="margin-left: 95px;margin-top: 20px;width: 130px;display : inline;padding: 2px">
                 <option>重装系统</option>
                 <option>联网升级入网软件</option>
                 <option>其他</option>
             </select>
 
             <select id='sel_note' class="form-control"
-                    style="margin-left: 100px;margin-top: 60px;width: 130px;display : inline">
+                    style="margin-left: 100px;margin-top: 20px;width: 130px;display : inline;padding: 2px">
                 <option>加固态</option>
                 <option>加内存</option>
                 <option>加内存、固态</option>
                 <option>其他</option>
             </select>
             <p style="visibility: hidden" id="p_message"></p>
-            <input style="margin-left: 20px;margin-top: 0px;width: 230px;display : inline;height: 35px;font-size: 12px; visibility:hidden"
+            <input style="margin-left: 40px;margin-top: 0px;width: 230px;display : inline;height: 35px;font-size: 12px; visibility:hidden;border: #FFFFFF;border-bottom:#777777 solid 1px;background:transparent;"
                    type="text" id="text_way" placeholder="输入解决方法">
-            <input style="margin-left: 20px;margin-top: 0px;width: 230px;display : inline;height: 35px;font-size: 12px; visibility:hidden"
+            <input style="margin-left: 20px;margin-top: 0px;width: 230px;display : inline;height: 35px;font-size: 12px; visibility:hidden;border: #FFFFFF;border-bottom:#777777 solid 1px;background:transparent;"
                    type="text" id="text_note" onkeyup="value=value.replace(/[\d]/g,'') "
                    placeholder="输入备注">
 
             <button id='xl_ok' type="button" class="btn btn-primary btn-lg"
-                    style="margin-left: 113px;margin-top: 20px;font-size: 14px">&ensp;确&ensp;定&ensp;
+                    style="margin-left: 113px;margin-top: 10px;font-size: 14px">&ensp;确&ensp;定&ensp;
             </button>
             <button id='xl_cancel' type="button" class="btn btn-default btn-lg"
-                    style="margin-left: 145px;margin-top: 20px;font-size: 14px; ">&ensp;取&ensp;消&ensp;
+                    style="margin-left: 145px;margin-top: 10px;font-size: 14px; ">&ensp;取&ensp;消&ensp;
             </button>
         </div>
         <table id="table"></table>
@@ -219,7 +258,7 @@
                     field: 'brand', title: '品牌', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
 
                 }, {
-                    field: 'reason', title: '故障原因', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
+                    field: 'reason', title: '故障现象描述', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
 
                 }, {
                     field: 'depart', title: '部门', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
@@ -246,6 +285,12 @@
                     }, {
                         field: 'ltime', title: '领取时间', align: 'center', cellStyle: {css: {'padding': '8px 2px 8px 2px'}}
 
+                    }, {
+                        field: 'why',
+                        title: '故障原因',
+                        align: 'center',
+                        width: '150px',
+                        {#                        cellStyle: {css: {"color": "red", 'padding': '8px 2px 8px 2px'}}#}
                     }, {
                         field: 'way',
                         title: '解决办法',
@@ -286,12 +331,6 @@
             });
         };
 
-        $('#basemonths').on('click', 'li', function () {
-            alert($(this).text())
-        });
-        $('#baseyears').on('click', 'li', function () {
-            alert($(this).text())
-        });
         //遮幕点击事件，隐藏弹出的对话框
         $('#fade').click(function () {
             $('#div_add').css('display', 'none');
@@ -411,6 +450,7 @@
                 if (!e) {
                     return;
                 } else {
+                    $('#fade').css('display', 'none');
                     xl_flag = true
                 }
             }
@@ -443,14 +483,11 @@
                 }
             }
             else if (flag == 2) {
-                var a = prompt("输入签领人姓名");
+                var a = prompt("输入签领人姓名(中文且长度最少两位)");
                 var reg = /^[\u4E00-\u9FA5]+$/;
                 if (reg.test(a) && a.length > 1) {
                     luser = a
                     xl_flag = true
-                } else {
-                    xl_flag = false
-                    alert('长度不够或未输入中文')
                 }
 
             }
@@ -481,35 +518,52 @@
             var way = $("#sel_way").find("option:selected").text();
             var note = $("#sel_note").find("option:selected").text();
             var luser = ''
+            var why = $('#text_why').val()
+            var flag1 = true
             if (way == '其他') {
                 way = $('#text_way').val()
+                if (note == '') {
+                    alert('输入解决办法')
+                    flag1 = false
+                }
             }
             if (note == '其他') {
                 note = $('#text_note').val()
-            }
-            data = {'flag': 3, 'id': id, 'xl_flag': flag, 'note': note, 'way': way, 'luser': luser}
-            $.ajax({
-                type: 'GET',
-                url: '/ajax/data',
-                data: data,
-                dataType: 'text',
-                success: function (data) {
-                    if (data == 1) {
-                        alert('状态修改成功')
-                        $('#table').bootstrapTable('refresh');
-                        $('#fade').css('display', 'none');
-                        $('#div_note').css('visibility', 'hidden')
-                        $('#text_way').css('visibility', 'hidden')
-                        $('#text_note').css('visibility', 'hidden')
-                    }
+                if (note == '') {
+                    alert('输入备注')
+                    flag1 = false
                 }
-            });
-        });
+            }
+            if (why == '')
+                flag = false
+            if (flag1) {
+                data = {'flag': 3, 'id': id, 'xl_flag': flag, 'note': note, 'why': why, 'way': way, 'luser': luser}
+                $.ajax({
+                    type: 'GET',
+                    url: '/ajax/data',
+                    data: data,
+                    dataType: 'text',
+                    success: function (data) {
+                        if (data == 1) {
+                            alert('状态修改成功')
+                            $('#table').bootstrapTable('refresh');
+                            $('#fade').css('display', 'none');
+                            $('#div_note').css('visibility', 'hidden')
+                            $('#text_why').css('visibility', 'hidden')
+                            $('#text_way').css('visibility', 'hidden')
+                            $('#text_note').css('visibility', 'hidden')
+                        }
+                    }
+                });
+            }
+        })
+        ;
         //修理完成的对话框按钮,弹框隐藏，两个内容框隐藏
         $('#xl_cancel').click(function () {
             $('#div_note').css('visibility', 'hidden')
             $('#text_way').css('visibility', 'hidden')
             $('#text_note').css('visibility', 'hidden')
+            $('#fade').css('display', 'none');
         });
         //解决办法选项内容改变时间
         $('#sel_way').on("change", function () {
@@ -570,33 +624,19 @@
                 data: data,
                 dataType: 'text',
                 success: function (data) {
-                    window.open('http://127.0.0.1:5000/upload/送修记录.xls');
+                    window.open(data);
                 }
             });
         });
-        $('#datepicker').change(function () {
-            var text = $('#datepicker').val()
-            if (text.length != 17) {
-                alert('格式输入不正确1')
-            } else {
-                time = text.split('-')
-                if (time.length != 2)
-                    alert('格式输入不正确2')
-                else if (time[0].length != 8 || time[1].length != 8)
-                    alert('格式输入不正确3')
-                else
-                    maketable(text)
-            }
-        });
         $('#btn_tj').click(function () {
             var myDate = new Date();//获取系统当前时间
-            var mon = myDate.getMonth()+1
-            if(mon <10)
-                mon = '0'+mon
-            var day = myDate.getDay()-1
-            if(day < 10)
-                day = '0'+day
-            var text = myDate.getFullYear()+""+mon+""+day+'-'+myDate.getFullYear()+""+mon+""+day
+            var mon = myDate.getMonth() + 1
+            if (mon < 10)
+                mon = '0' + mon
+            var day = myDate.getDate()
+            if (day < 10)
+                day = '0' + day
+            var text = myDate.getFullYear() + "" + mon + "" + day + '-' + myDate.getFullYear() + "" + mon + "" + day
             maketable(text)
         });
     </script>
